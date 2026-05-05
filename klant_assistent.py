@@ -23,7 +23,7 @@ Spelregels:
 - Werk toe naar een werkende terminal-applicatie
 """
 
-print("OUTPUT HELLO")
+
 
 
 def verzamel_klant():
@@ -48,8 +48,28 @@ def verzamel_klant():
     - Leeftijd en besteding moeten getallen zijn (anders opnieuw vragen)
     - Klanttype mag alleen geldige waarden hebben (anders opnieuw vragen)
     """
-    # TODO: implementeer deze functie
-    pass
+
+    klant = {
+        "naam": None,
+        "leeftijd": None,
+        "besteding": None,
+        "klanttype": None
+    }
+
+    naam = str(input("Wat is uw naam? "))
+    leeftijd = int(input("Wat is uw leeftijd? "))
+    besteding = float(input("Wat is het bestedingsniveau? "))
+    klanttype = str(input("Wat is uw klanttype? (nieuw/bestaand/premium) "))
+
+    klant.update({
+        "naam": naam,
+        "leeftijd": leeftijd,
+        "besteding": besteding,
+        "klanttype": klanttype
+    })
+
+    return klant
+
 
 
 def genereer_advies(klant):
@@ -73,8 +93,15 @@ def genereer_advies(klant):
     2. Gebruik if / elif / else in de juiste volgorde (prioriteit)
     3. Return één advieslabel
     """
-    # TODO: implementeer deze functie
-    pass
+    
+    if (klant["klanttype"] == "premium"):
+        print("Intensievere begeleiding (complex dossier)")
+    elif (klant["leeftijd"] >= 67):
+        print("AOW-check en extra begeleiding")
+    elif (klant["besteding"] > 100):
+        print("Check aanvullende regelingen / samenloop")
+    else:
+        print("Standaard dienstverlening")
 
 
 def samenvatting(klanten):
@@ -109,8 +136,9 @@ def main():
     """
     print("KlantAssistent gestart (WerkZeker Nederland)")
 
-    # TODO: implementeer de hoofdlogica
-    pass
+    klant = verzamel_klant()
+    genereer_advies(klant)
+
 
 
 if __name__ == "__main__":
