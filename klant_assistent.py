@@ -23,6 +23,8 @@ Spelregels:
 - Werk toe naar een werkende terminal-applicatie
 """
 
+import json
+
 geldige_klanttypes = ["nieuw", "bestaand", "premium"]
 
 def verwerk_klanten():
@@ -43,6 +45,7 @@ def verwerk_klanten():
         klanten.append(klant)
 
         advies = genereer_advies(klant)
+        klant["advies"] = advies
         print("Advies:", advies)
         print()
 
@@ -77,7 +80,8 @@ def verzamel_klant(klantNummer):
         "naam": None,
         "leeftijd": None,
         "besteding": None,
-        "klanttype": None
+        "klanttype": None,
+        "advies": None
     }
 
     print("klant nummer:", klantNummer)
@@ -178,8 +182,7 @@ def samenvatting(klanten):
     adviezen_telling = {}
 
     for klant in klanten:
-        advies = genereer_advies(klant)
-
+        advies = klant["advies"]
         if advies in adviezen_telling:
             adviezen_telling[advies] += 1
         else:
@@ -190,6 +193,11 @@ def samenvatting(klanten):
     print("Telling adviezen:")
     for advies, aantal in adviezen_telling.items():
         print(f"- {advies}: {aantal}")
+
+
+def sla_op_naar_json(klanten, bestandsnaam="klanten.json"):
+    with open(bestandsnaam, "w", encoding="utf-8") as bestand:
+        json.dump(klanten, bestand, ensure_ascii=False, indent=4)
 
 
 def main():
@@ -208,6 +216,9 @@ def main():
 
     klanten = verwerk_klanten()
     samenvatting(klanten)
+
+    sla_op_naar_json(klanten)
+    print("Gegevens opgeslagen in klanten.json")
 
 
 
