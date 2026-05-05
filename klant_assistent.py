@@ -30,7 +30,11 @@ def verwerk_klanten():
     for i in range(aantalKlanten):
         klant = verzamel_klant(i + 1)
         klanten.append(klant)
-        genereer_advies(klant)
+
+        advies = genereer_advies(klant)
+        print("Advies:", advies)
+        print()
+
     
     return klanten
 
@@ -104,19 +108,18 @@ def genereer_advies(klant):
     3. Return één advieslabel
     """
     
-    printBericht = ""
+    advies = ""
 
     if (klant["klanttype"] == "premium"):
-        printBericht = "Intensievere begeleiding (complex dossier)"
+        advies = "Intensievere begeleiding (complex dossier)"
     elif (klant["leeftijd"] >= 67):
-        printBericht = "AOW-check en extra begeleiding"
+        advies = "AOW-check en extra begeleiding"
     elif (klant["besteding"] > 100):
-        printBericht = "Check aanvullende regelingen / samenloop"
+        advies = "Check aanvullende regelingen / samenloop"
     else:
-        printBericht = "Standaard dienstverlening"
+        advies = "Standaard dienstverlening"
 
-    print("Advies:", printBericht)
-    print()
+    return advies
 
 def samenvatting(klanten):
     """
@@ -132,8 +135,22 @@ def samenvatting(klanten):
     3. Tel de adviezen (bijv. met een dict)
     4. Print het overzicht netjes
     """
-    # TODO: implementeer deze functie
-    pass
+
+    adviezen_telling = {}
+
+    for klant in klanten:
+        advies = genereer_advies(klant)
+
+        if advies in adviezen_telling:
+            adviezen_telling[advies] += 1
+        else:
+            adviezen_telling[advies] = 1
+
+    print("Samenvatting:")
+    print("Aantal klanten:", len(klanten))
+    print("Telling adviezen:")
+    for advies, aantal in adviezen_telling.items():
+        print(f"- {advies}: {aantal}")
 
 
 def main():
@@ -150,7 +167,8 @@ def main():
     """
     print("KlantAssistent gestart (WerkZeker Nederland)")
 
-    verwerk_klanten()
+    klanten = verwerk_klanten()
+    samenvatting(klanten)
 
 
 
