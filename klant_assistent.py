@@ -23,10 +23,19 @@ Spelregels:
 - Werk toe naar een werkende terminal-applicatie
 """
 
+def verwerk_klanten():
+    klanten = []
+    aantalKlanten = int(input("Hoeveel klanten wilt u invullen? "))
+
+    for i in range(aantalKlanten):
+        klant = verzamel_klant(i + 1)
+        klanten.append(klant)
+        genereer_advies(klant)
+    
+    return klanten
 
 
-
-def verzamel_klant():
+def verzamel_klant(klantNummer):
     """
     Vraagt gegevens van één klant/aanvrager en retourneert een dictionary.
 
@@ -56,10 +65,11 @@ def verzamel_klant():
         "klanttype": None
     }
 
-    naam = str(input("Wat is uw naam? "))
-    leeftijd = int(input("Wat is uw leeftijd? "))
-    besteding = float(input("Wat is het bestedingsniveau? "))
-    klanttype = str(input("Wat is uw klanttype? (nieuw/bestaand/premium) "))
+    print("klant nummer:", klantNummer)
+    naam = str(input("Wat is de naam van deze klant? "))
+    leeftijd = int(input("Wat is de leeftijd van deze klant? "))
+    besteding = float(input("Wat is het bestedingsniveau van deze klant? "))
+    klanttype = str(input("Wat is het klanttype van deze klant? (nieuw/bestaand/premium) "))
 
     klant.update({
         "naam": naam,
@@ -94,15 +104,19 @@ def genereer_advies(klant):
     3. Return één advieslabel
     """
     
-    if (klant["klanttype"] == "premium"):
-        print("Intensievere begeleiding (complex dossier)")
-    elif (klant["leeftijd"] >= 67):
-        print("AOW-check en extra begeleiding")
-    elif (klant["besteding"] > 100):
-        print("Check aanvullende regelingen / samenloop")
-    else:
-        print("Standaard dienstverlening")
+    printBericht = ""
 
+    if (klant["klanttype"] == "premium"):
+        printBericht = "Intensievere begeleiding (complex dossier)"
+    elif (klant["leeftijd"] >= 67):
+        printBericht = "AOW-check en extra begeleiding"
+    elif (klant["besteding"] > 100):
+        printBericht = "Check aanvullende regelingen / samenloop"
+    else:
+        printBericht = "Standaard dienstverlening"
+
+    print("Advies:", printBericht)
+    print()
 
 def samenvatting(klanten):
     """
@@ -136,8 +150,7 @@ def main():
     """
     print("KlantAssistent gestart (WerkZeker Nederland)")
 
-    klant = verzamel_klant()
-    genereer_advies(klant)
+    verwerk_klanten()
 
 
 
